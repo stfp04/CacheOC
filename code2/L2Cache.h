@@ -8,6 +8,7 @@
 #include "Cache.h"
 
 #define L1_LINES (L1_SIZE / BLOCK_SIZE)
+#define L2_LINES (L2_SIZE / BLOCK_SIZE)
 
 void resetTime();
 
@@ -19,7 +20,11 @@ void accessDRAM(uint32_t, uint8_t *, uint32_t);
 /*********************** Cache *************************/
 
 void initCache();
+void initCache1();
+void initCache2();
+
 void accessL1(uint32_t, uint8_t *, uint32_t);
+void accessL2(uint32_t, uint8_t *, uint32_t);
 
 typedef struct CacheLine {
   uint8_t Valid;
@@ -28,10 +33,15 @@ typedef struct CacheLine {
   uint8_t words[BLOCK_SIZE];
 } CacheLine;
 
-typedef struct Cache {
+typedef struct Cache1 {
   uint32_t init;
   CacheLine line[L1_LINES];
-} Cache;
+} Cache1;
+
+typedef struct Cache2 {
+  uint32_t init;
+  CacheLine line[L2_LINES];
+} Cache2;
 
 /*********************** Interfaces *************************/
 
