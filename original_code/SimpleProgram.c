@@ -1,4 +1,4 @@
-#include "L2Cache.h"
+#include "SimpleCache.h"
 
 int main() {
 

@@ -44,16 +44,20 @@ void initCache1() {
 }
 
 void initCache2() {
-    for(int i = 0; i < L2_LINES; i++) { 
-        L2Cache.line[i].Valid = 0;
-        L2Cache.line[i].Tag = 0;
-        L2Cache.line[i].Dirty = 0;
-    }
+    for(int i = 0; i < L2_SETS; i++) {
+      for(int j = 0; j < SET_SIZE; j++){
+          L2Cache.sets[i].init = 1;
+          L2Cache.sets[i].lines[j].Valid = 0;
+          L2Cache.sets[i].lines[j].Tag = 0;
+          L2Cache.sets[i].lines[j].Dirty = 0;
+          L2Cache.sets[i].lru = 0;
+        }
+      }
     L2Cache.init = 1;
 }
 
 void accessL1(uint32_t address, uint8_t *data, uint32_t mode) {
-
+  
   uint32_t offset, index, tag, MemAddress, word_address;
   uint8_t TempBlock[BLOCK_SIZE];
 
@@ -108,7 +112,7 @@ void accessL2(uint32_t address, uint8_t *data, uint32_t mode) {
   uint32_t index, tag, MemAddress;
   uint8_t TempBlock[BLOCK_SIZE];
 
-  uint8_t index_bits = 9, offset_bits = 6;
+  uint8_t index_bits = 8, offset_bits = 6;
 
   /* init cache */
   if (L2Cache.init == 0) {
@@ -118,37 +122,49 @@ void accessL2(uint32_t address, uint8_t *data, uint32_t mode) {
 
   tag = address >> (index_bits + offset_bits); // Why do I do this?
   index = (address >> offset_bits) & ((1 << index_bits) - 1);
-
-  CacheLine *Line = &L2Cache.line[index];
-
+  CacheSet *Set = &L2Cache.sets[index];
+  CacheLine *Line1 = &L2Cache.sets[index].lines[0];
+  CacheLine *Line2 = &L2Cache.sets[index].lines[1];
+  CacheLine *lineToChange;
   MemAddress = address >> offset_bits;
   MemAddress = MemAddress << offset_bits;
 
   /* access Cache*/
 
-  if (!Line->Valid || Line->Tag != tag) {         // if block not present - miss
+  if ((!Line1->Valid && !Line2->Valid) || (Line1->Tag != tag && Line2->Tag != tag)) { // if block not present - miss
     accessDRAM(MemAddress, TempBlock, MODE_READ); // get new block from DRAM
    
-    if ((Line->Valid) && (Line->Dirty)) { // line has dirty block
-      accessDRAM(MemAddress, &(L2Cache.line[index].words[0]), MODE_WRITE); // then write back old block
+    int set_lru = Set->lru;
+    lineToChange = &Set->lines[set_lru];
+    
+    if ((lineToChange->Valid) && (lineToChange->Dirty)) { // line has dirty block
+      accessDRAM(MemAddress, &(lineToChange->words[0]), MODE_WRITE); // then write back old block
+      Set->lru = abs(set_lru - 1);
     }
 
-    memcpy(&(L2Cache.line[index].words[0]), TempBlock,
+    memcpy(&(lineToChange->words[0]), TempBlock,
            BLOCK_SIZE); // copy new block to cache line
-    Line->Valid = 1;
-    Line->Tag = tag;
-    Line->Dirty = 0;
+    lineToChange->Valid = 1;
+    lineToChange->Tag = tag;
+    lineToChange->Dirty = 0;
   } // if miss, then replaced with the correct block
 
+  if(Line1->Tag == tag) {
+    lineToChange = &Set->lines[0];
+  }
+  else{
+    lineToChange = &Set->lines[1];
+  }
+
   if (mode == MODE_READ) {    // read data from cache line
-    memcpy(data, &L2Cache.line[index].words[0], BLOCK_SIZE);
+    memcpy(data, &(lineToChange->words[0]), BLOCK_SIZE);
     time += L2_READ_TIME;
   }
 
   if (mode == MODE_WRITE) { // write data from cache line
-    memcpy(&L2Cache.line[index].words[0], data, BLOCK_SIZE);
+    memcpy(&(lineToChange->words[0]), data, BLOCK_SIZE);
     time += L2_WRITE_TIME;
-    Line->Dirty = 1;
+    lineToChange->Dirty = 1;
   }
 }
 
