@@ -7,8 +7,10 @@
 #include <stdint.h>
 #include "Cache.h"
 
+#define SET_SIZE 2
 #define L1_LINES (L1_SIZE / BLOCK_SIZE)
 #define L2_LINES (L2_SIZE / BLOCK_SIZE)
+#define L2_SETS (L2_LINES / SET_SIZE)
 
 void resetTime();
 
@@ -33,6 +35,13 @@ typedef struct CacheLine {
   uint8_t words[BLOCK_SIZE];
 } CacheLine;
 
+
+typedef struct CacheSet{
+  uint32_t init;
+  CacheLine lines[SET_SIZE];
+  uint8_t lru;
+} CacheSet;
+
 typedef struct Cache1 {
   uint32_t init;
   CacheLine line[L1_LINES];
@@ -40,7 +49,7 @@ typedef struct Cache1 {
 
 typedef struct Cache2 {
   uint32_t init;
-  CacheLine line[L2_LINES];
+  CacheSet sets[L2_SETS];
 } Cache2;
 
 /*********************** Interfaces *************************/
