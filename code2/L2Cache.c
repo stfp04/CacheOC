@@ -1,4 +1,4 @@
-#include "L1Cache.h"
+#include "L2Cache.h"
 
 Cache L1Cache;
 uint8_t DRAM[DRAM_SIZE];

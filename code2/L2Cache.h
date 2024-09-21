@@ -1,11 +1,13 @@
-#ifndef SIMPLECACHE_H
-#define SIMPLECACHE_H
+#ifndef L2CACHE_H
+#define L2CACHE_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include "Cache.h"
+
+#define L1_LINES (L1_SIZE / BLOCK_SIZE)
 
 void resetTime();
 
@@ -23,11 +25,12 @@ typedef struct CacheLine {
   uint8_t Valid;
   uint8_t Dirty;
   uint32_t Tag;
+  uint8_t words[BLOCK_SIZE];
 } CacheLine;
 
 typedef struct Cache {
   uint32_t init;
-  CacheLine line;
+  CacheLine line[L1_LINES];
 } Cache;
 
 /*********************** Interfaces *************************/
