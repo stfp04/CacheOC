@@ -49,7 +49,6 @@ void accessL1(uint32_t address, uint8_t *data, uint32_t mode) {
 
   MemAddress = address >> 3; // again this....!
   MemAddress = MemAddress << 3; // address of the block in memory
-
   /* access Cache*/
 
   if (!Line->Valid || Line->Tag != Tag) {         // if block not present - miss
