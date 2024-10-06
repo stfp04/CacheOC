@@ -58,7 +58,7 @@ int main() {
 
             clock_t const cycle_count = clock() - start_cycles;
             double const time_diff = get_elapsed(&start_time);
-            if(stride == 2048) {
+            if(stride == 4096) {
                 a_stride = n_iterations;
                 td_stride = time_diff;
                 t_stride = stride;
@@ -77,8 +77,8 @@ int main() {
         double const total_time = get_elapsed(&t1) * 1000.0;
         double const mean_time = (total_time / total_accesses) * 1000000000.0;
         double const mstr_time = (td_stride / a_stride) * 1000000000.0;
-        fprintf(stdout, "t1 - t2: %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
-        fprintf(stdout, "Stride: %zu -> t2 - t1: %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride * 1000.0, mstr_time);
+        fprintf(stdout, "t1 - t2 (ms): %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
+        fprintf(stdout, "Stride: %zu -> t2 - t1 (ms): %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride * 1000.0, mstr_time);
     }
     return 0;
 }
