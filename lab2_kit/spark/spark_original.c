@@ -23,14 +23,17 @@ double get_elapsed(struct timespec const *start) {
 
 int main() {
     uint8_t *array = calloc(CACHE_MAX, sizeof(uint8_t));
+    
 
     fputs("size\tstride\telapsed(s)\tcycles\n", stdout);
-
-    for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX;
-         cache_size = cache_size * 2) {
-        fprintf(stderr, "[LOG]: running with array of size %zu KiB\n",
-                cache_size >> 10);
+    struct timespec t1;
+    double td_stride;
+    size_t total_accesses = 0, a_stride, stride;
+    for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX; cache_size = cache_size * 2) {
+        fprintf(stderr, "[LOG]: running with array of size %zu KiB\n", cache_size >> 10);
         fflush(stderr);
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
+        size_t total_accesses = 0;
         for (size_t stride = 1; stride <= cache_size / 2; stride = 2 * stride) {
             size_t limit = cache_size - stride + 1;
 
@@ -47,8 +50,7 @@ int main() {
             size_t n_iterations = 0;
             /* ************************************************************** */
             for (size_t repeat = 0; repeat < N_REPETITIONS * stride; repeat++) {
-                for (size_t index = 0; index < limit;
-                     index += stride, n_iterations++) {
+                for (size_t index = 0; index < limit; index += stride, n_iterations++) {
                     array[index] = array[index] + 1;
                 }
             }
@@ -56,6 +58,11 @@ int main() {
 
             clock_t const cycle_count = clock() - start_cycles;
             double const time_diff = get_elapsed(&start_time);
+            if(stride == 2048) {
+                a_stride = n_iterations;
+                td_stride = time_diff;
+                stride = stride;
+            }
 
             /******************************************************************
              * Note: You can change the code bellow to calculate more measures
@@ -66,6 +73,11 @@ int main() {
             fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride,
                     time_diff, cycle_count);
         }
+        double const total_time = get_elapsed(&t1);
+        double const mean_time = (total_time / total_accesses) * 1000000000.0;
+        double const mstr_time = (td_stride / a_stride) * 1000000000.0;
+        fprintf(stdout, "t1 - t2: %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
+        fprintf(stdout, "Stride: %zu -> t1 - t2: %lf \t Mean Access Time (ns): %lf\n", stride, td_stride, mstr_time);
     }
 
     return 0;
