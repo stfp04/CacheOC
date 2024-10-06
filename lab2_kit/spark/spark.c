@@ -25,12 +25,14 @@ int main() {
     uint8_t *array = calloc(CACHE_MAX, sizeof(uint8_t));
 
     fputs("size\tstride\telapsed(s)\tcycles\n", stdout);
+    struct timespec t1;
 
     for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX;
          cache_size = cache_size * 2) {
         fprintf(stderr, "[LOG]: running with array of size %zu KiB\n",
                 cache_size >> 10);
         fflush(stderr);
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
         for (size_t stride = 1; stride <= cache_size / 2; stride = 2 * stride) {
             size_t limit = cache_size - stride + 1;
 
@@ -68,6 +70,8 @@ int main() {
             fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride,
                     time_diff, cycle_count);
         }
+        double const total_time = get_elapsed(&t1);
+        fprintf(stdout, "t1 - t2 (ms): %lf", total_time  * 1000.0);
     }
 
     return 0;
