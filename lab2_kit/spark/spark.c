@@ -35,8 +35,10 @@ int main() {
             size_t limit = cache_size - stride + 1;
 
             /* warm up the cache */
-            for (size_t index = 0; index < limit; index += stride) {
-                array[index] = array[index] + 1;
+            for(ssize_t i = 10 * stride; i > 0; i--) {
+                for (size_t index = 0; index < limit; index += stride) {
+                    array[index] = array[index] + 1;
+                }
             }
 
             clock_t const start_cycles = clock();

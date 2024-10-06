@@ -1,10 +1,13 @@
-TARGETS = spark
+TARGETS = spark spark_original
 CFLAGS =  -lrt
 
 all: $(TARGETS)
 
-cm1: cm1.c
-	$(CC) $(CFLAGS) spark.c -o $(TARGETS)
+spark: spark.c
+	$(CC) $(CFLAGS) spark.c -o spark
+
+spark_original: spark_original.c
+	$(CC) $(CFLAGS) spark_original.c -o spark_original
 
 clean:
 	rm -f $(TARGETS) *.o *.stderr *.stdout core *~
