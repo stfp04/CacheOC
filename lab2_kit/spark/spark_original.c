@@ -63,6 +63,7 @@ int main() {
                 td_stride = time_diff;
                 t_stride = stride;
             }
+            total_accesses += n_iterations;
 
             /******************************************************************
              * Note: You can change the code bellow to calculate more measures
