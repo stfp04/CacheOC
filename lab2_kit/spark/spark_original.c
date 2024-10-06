@@ -74,11 +74,11 @@ int main() {
             fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride,
                     time_diff, cycle_count);
         }
-        double const total_time = get_elapsed(&t1);
+        double const total_time = get_elapsed(&t1) * 1000.0;
         double const mean_time = (total_time / total_accesses) * 1000000000.0;
         double const mstr_time = (td_stride / a_stride) * 1000000000.0;
         fprintf(stdout, "t1 - t2: %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
-        fprintf(stdout, "Stride: %zu -> t1 - t2: %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride, mstr_time);
+        fprintf(stdout, "Stride: %zu -> t2 - t1: %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride, mstr_time);
     }
     return 0;
 }
