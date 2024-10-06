@@ -80,6 +80,5 @@ int main() {
         fprintf(stdout, "t1 - t2: %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
         fprintf(stdout, "Stride: %zu -> t1 - t2: %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride, mstr_time);
     }
-
     return 0;
 }
