@@ -28,7 +28,7 @@ int main() {
     fputs("size\tstride\telapsed(s)\tcycles\n", stdout);
     struct timespec t1;
     double td_stride;
-    size_t total_accesses = 0, a_stride, stride;
+    size_t total_accesses = 0, a_stride, t_stride;
     for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX; cache_size = cache_size * 2) {
         fprintf(stderr, "[LOG]: running with array of size %zu KiB\n", cache_size >> 10);
         fflush(stderr);
@@ -61,7 +61,7 @@ int main() {
             if(stride == 2048) {
                 a_stride = n_iterations;
                 td_stride = time_diff;
-                stride = stride;
+                t_stride = stride;
             }
 
             /******************************************************************
@@ -77,7 +77,7 @@ int main() {
         double const mean_time = (total_time / total_accesses) * 1000000000.0;
         double const mstr_time = (td_stride / a_stride) * 1000000000.0;
         fprintf(stdout, "t1 - t2: %lf\nMean Access Time (ns): %lf\n", total_time, mean_time);
-        fprintf(stdout, "Stride: %zu -> t1 - t2: %lf \t Mean Access Time (ns): %lf\n", stride, td_stride, mstr_time);
+        fprintf(stdout, "Stride: %zu -> t1 - t2: %lf \t Mean Access Time (ns): %lf\n", t_stride, td_stride, mstr_time);
     }
 
     return 0;
