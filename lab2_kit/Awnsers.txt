@@ -1,0 +1,5 @@
+3.1)
+a)The processor events to be analysed during the program’s execution are: 
+The L1 Cache Data Cache Misses, declared in the code through the EventSet. L1 Data Cache Misses counts the number of times the processor fails to find the relevant data on the L1 cache, increasing with each cache miss.
+The clock cycles, through the PAPI_get_real_cyc function from the PAPI library, representing the amount of cycles needed to execute the specific stretch of code.
+The processing time, represented in microseconds and through the PAPI_get_real_usec function, which measures the length of time passed as the processor executes the code.
