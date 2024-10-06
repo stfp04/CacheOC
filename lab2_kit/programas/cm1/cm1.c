@@ -88,7 +88,7 @@ int main() {
             float const avg_misses = (float)(values[0]) / n_iterations;
             float const avg_time = (float)(end_usec - start_usec) / n_iterations;
             float const avg_cycles = (float)(end_cycles - start_cycles) / n_iterations;
-            fprintf(stdout, "cache_size=%zu\tstride=%zu\tavg_misses=%f\tavg_time=%f\n", cache_size, stride, avg_misses, avg_time);
+            fprintf(stdout, "%zu\t%zu\t%f\t%f\n", cache_size, stride, avg_misses, avg_time);
         }
     }
 
