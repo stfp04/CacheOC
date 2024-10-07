@@ -17,7 +17,7 @@ for stride in $STRIDE_LIST; do
         echo "($stride, $cache): \"$METRIC\""
         echo -n "$METRIC " >> cm1_plot.dat
     done
-    echo >> 
+    echo >> cm1_plot.dat
 done
 
 echo "call \"cm1_plot.gp\"" | gnuplot
