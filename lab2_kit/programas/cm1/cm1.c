@@ -38,11 +38,6 @@ int main() {
         handle_error("add_event");
     }
 
-    /* Add L2 data cache misses to our Event Set */
-    if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
-        handle_error("add_event");
-    }
-
     for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX; cache_size = cache_size * 2) {
         for (size_t stride = 1; stride <= cache_size / 2; stride = stride * 2) {
             size_t const limit = cache_size - stride + 1;
@@ -91,7 +86,6 @@ int main() {
 
             /************************************/
             float const avg_misses = (float)(values[0]) / n_iterations;
-            float const avg_misses_L2 = (float)(values[1]) / n_iterations;
             float const avg_time = (float)(end_usec - start_usec) / n_iterations;
             float const avg_cycles = (float)(end_cycles - start_cycles) / n_iterations;
             fprintf(stdout,"cache_size=%zu\tstride=%zu\tavg_misses=%f\tavg_misses_L2=%f\tavg_time=%f\n", cache_size, stride, avg_misses, avg_misses_L2,avg_time);
