@@ -3,3 +3,11 @@ a)The processor events to be analysed during the program’s execution are:
 The L1 Cache Data Cache Misses, declared in the code through the EventSet. L1 Data Cache Misses counts the number of times the processor fails to find the relevant data on the L1 cache, increasing with each cache miss.
 The clock cycles, through the PAPI_get_real_cyc function from the PAPI library, representing the amount of cycles needed to execute the specific stretch of code.
 The processing time, represented in microseconds and through the PAPI_get_real_usec function, which measures the length of time passed as the processor executes the code.
+
+3.1.1)
+c)
+
+1)Based on the obtained results we can determine the size of the L1 Data Cache to be 32Kb, given that for cache sizes larger than this (in this case 64KB), the cache consists of only misses, represented in the plot by the sarp
+increase in time, meaning that the cache is no longer effectivelly containing the data.
+
+2)The block size can be observed to be 16, seen as when the stride value (entries skipped) surpasses this value, the cache misses drastically increase due to the fact that it has to constantly load in new blocks from memory, and never uses the same loaded block
