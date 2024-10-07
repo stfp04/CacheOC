@@ -107,7 +107,6 @@ int main() {
     /* Gets the starting time in microseconds */
     long long const start_usec = PAPI_get_real_usec();
 
-    
     transpose(tmp, mul2);
     multiply_matrices(mul1, mul2, res);
 
