@@ -22,7 +22,8 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
     /************************************/
     /*      MATRIX TRANSPOSITION        */
     /************************************/
-    transpose(tmp, m2);  // Change 'mul2' to 'm2'
+
+    transpose(tmp, m2);
 }
 
 void transpose(int16_t m[N][N], int16_t res[N][N]) {
@@ -46,11 +47,10 @@ void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N],
 
 int main() {
     int16_t mul1[N][N];
-    int16_t mul2[N][N]; // Transposed matrix
-    int16_t tmp[N][N];
+    int16_t mul2[N][N];
     int16_t res[N][N];
 
-    setup(mul1, mul2, res); // Setup matrix and transposition
+    setup(mul1, mul2, res);
 
     /************************************/
 
@@ -109,10 +109,8 @@ int main() {
     /* Gets the starting time in microseconds */
     long long const start_usec = PAPI_get_real_usec();
 
-    /************************************/
-    /* Include matrix transposition in timing */
-    transpose(mul1, tmp);  // Perform transposition inside timing region
-    multiply_matrices(mul1, mul2, res); // Perform matrix multiplication
+    multiply_matrices(mul1, mul2, res);
+
     /************************************/
 
     /* Gets the ending time in clock cycles */
