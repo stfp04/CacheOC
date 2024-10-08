@@ -11,3 +11,13 @@ c)
 increase in time, meaning that the cache is no longer effectivelly containing the data.
 
 2)The block size can be observed to be 16, seen as when the stride value (entries skipped) surpasses this value, the cache misses drastically increase due to the fact that it has to constantly load in new blocks from memory, and never uses the same loaded block
+
+3.1.2)
+a)The main changes introduced in this code in order to analyse the L2 Data Cache misses in tendem with the previous processor events, was the addition of the code snippet:
+/* Add L2 data cache misses to our Event Set */
+    if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
+        handle_error("add_event");
+    }
+and:
+float const avg_misses_L2 = (float)(values[1]) / n_iterations;
+The first instructions are responsible for adding the PAPI_L2_DCM to the EventSet tracked by PAPI, while the secons set of instructions print the reults into the table produced

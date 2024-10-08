@@ -18,8 +18,7 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
     }
 }
 
-void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N],
-                       int16_t res[N][N]) {
+void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N], int16_t res[N][N]) {
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
             for (size_t k = 0; k < N; ++k) {
