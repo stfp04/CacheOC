@@ -22,7 +22,8 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
     /************************************/
     /*      MATRIX TRANSPOSITION        */
     /************************************/
-    transpose(tmp, mul2);
+
+    transpose(tmp, m2);
 }
 
 void transpose(int16_t m[N][N], int16_t res[N][N]) {
@@ -47,10 +48,9 @@ void multiply_matrices(int16_t const factor1[N][N], int16_t const factor2[N][N],
 int main() {
     int16_t mul1[N][N];
     int16_t mul2[N][N];
-    int16_t tmp[N][N];
     int16_t res[N][N];
 
-    setup(mul1, tmp, res);
+    setup(mul1, mul2, res);
 
     /************************************/
 
