@@ -5,7 +5,7 @@
 #include <string.h>
 
 #define N 512
-#define CACHE_LINE_SIZE 1 // TODO: update this value
+#define CACHE_LINE_SIZE 64 // Block size found
 
 #define SUB_MATRIX_SIZE                                                        \
     (((CACHE_LINE_SIZE / sizeof(int16_t)) <= 0)                                \
@@ -24,9 +24,7 @@ void setup(int16_t m1[N][N], int16_t m2[N][N], int16_t m3[N][N]) {
     }
 }
 
-void multiply_matrices_by_blocks(int16_t const factor1[N][N],
-                                 int16_t const factor2[N][N],
-                                 int16_t res[N][N]) {
+void multiply_matrices_by_blocks(int16_t const factor1[N][N], int16_t const factor2[N][N], int16_t res[N][N]) {
     for (size_t i = 0; i < N; i += SUB_MATRIX_SIZE) {
         for (size_t j = 0; j < N; j += SUB_MATRIX_SIZE) {
             for (size_t k = 0; k < N; k += SUB_MATRIX_SIZE) {
