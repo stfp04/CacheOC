@@ -66,7 +66,7 @@ int main() {
     }
 
     /* Add L1 data cache misses to the Event Set */
-    if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
+    if (PAPI_add_event(EventSet, PAPI_L2_DCH) != PAPI_OK) {
         handle_error("add_event");
     }
     /* Add load instructions completed to the Event Set */
