@@ -1,4 +1,4 @@
-TARGETS = mm3
+TARGETS = mm3 mm3v2
 PAPILIB_ALAMEDA=/run/current-system/sw/lib/libpapi.so
 PAPILIB_TAGUS=/usr/local/lib/libpapi.so
 CFLAGS=-O1
