@@ -69,6 +69,10 @@ int main() {
     if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
         handle_error("add_event");
     }
+    /* Add load instructions completed to the Event Set */
+    if (PAPI_add_event(EventSet, PAPI_L2_DCA) != PAPI_OK) {
+        handle_error("add_event");
+    }
 
     /* Reset the counting events in the Event Set */
     if (PAPI_reset(EventSet) != PAPI_OK) {
