@@ -12,5 +12,12 @@ else
 	$(CC) $(CFLAGS) mm2.c $(PAPILIB_TAGUS) -o mm2
 endif
 
+mm2: mm2v2.c
+ifeq ($(shell test -e $(PAPILIB_ALAMEDA) && echo -n yes),yes)
+	$(CC) $(CFLAGS) mm2v2.c $(PAPILIB_ALAMEDA) -o mm2v2
+else
+	$(CC) $(CFLAGS) mm2v2.c $(PAPILIB_TAGUS) -o mm2v2
+endif
+
 clean:
 	rm -f $(TARGETS) *.o *.stderr *.stdout core *~
