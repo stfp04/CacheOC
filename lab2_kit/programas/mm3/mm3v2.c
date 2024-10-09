@@ -66,7 +66,7 @@ int main() {
     }
 
     /* Add L1 data cache misses to the Event Set */
-    if (PAPI_add_event(EventSet, PAPI_L2_DCH) != PAPI_OK) {
+    if (PAPI_add_event(EventSet, PAPI_L2_DCM) != PAPI_OK) {
         handle_error("add_event");
     }
     /* Add load instructions completed to the Event Set */
@@ -87,7 +87,7 @@ int main() {
 
     
 
-    fprintf(stdout, "After resetting counter 'PAPI_L2_DCH' [x10^6]: %f\n",
+    fprintf(stdout, "After resetting counter 'PAPI_L2_DCM' [x10^6]: %f\n",
             (double)(values[0]) / 1000000);
     fprintf(stdout, "After resetting counter 'PAPI_L2_DCA' [x10^6]: %f\n",
             (double)(values[1]) / 1000000);
