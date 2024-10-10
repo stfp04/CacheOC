@@ -1,4 +1,4 @@
-TARGETS = spark spark_original
+TARGETS = spark spark_o
 CFLAGS =  -lrt
 
 all: $(TARGETS)
