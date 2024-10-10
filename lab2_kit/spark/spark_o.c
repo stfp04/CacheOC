@@ -47,8 +47,7 @@ int main() {
             size_t n_iterations = 0;
             /* ************************************************************** */
             for (size_t repeat = 0; repeat < N_REPETITIONS * stride; repeat++) {
-                for (size_t index = 0; index < limit;
-                     index += stride, n_iterations++) {
+                for (size_t index = 0; index < limit; index += stride, n_iterations++) {
                     array[index] = array[index] + 1;
                 }
             }
@@ -63,8 +62,7 @@ int main() {
              *****************************************************************/
 
             /* Output to stdout */
-            fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride,
-                    time_diff, cycle_count);
+            fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride, time_diff, cycle_count);
         }
     }
 
