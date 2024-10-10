@@ -25,21 +25,18 @@ int main() {
     uint8_t *array = calloc(CACHE_MAX, sizeof(uint8_t));
 
     fputs("size\tstride\telapsed(s)\tcycles\n", stdout);
-    struct timespec t1;
 
-    for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX; cache_size = cache_size * 2) {
+    for (size_t cache_size = CACHE_MIN; cache_size <= CACHE_MAX;
+         cache_size = cache_size * 2) {
         fprintf(stderr, "[LOG]: running with array of size %zu KiB\n",
                 cache_size >> 10);
         fflush(stderr);
-        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
         for (size_t stride = 1; stride <= cache_size / 2; stride = 2 * stride) {
             size_t limit = cache_size - stride + 1;
 
             /* warm up the cache */
-            for(ssize_t i = 10 * stride; i > 0; i--) {
-                for (size_t index = 0; index < limit; index += stride) {
-                    array[index] = array[index] + 1;
-                }
+            for (size_t index = 0; index < limit; index += stride) {
+                array[index] = array[index] + 1;
             }
 
             clock_t const start_cycles = clock();
@@ -50,7 +47,8 @@ int main() {
             size_t n_iterations = 0;
             /* ************************************************************** */
             for (size_t repeat = 0; repeat < N_REPETITIONS * stride; repeat++) {
-                for (size_t index = 0; index < limit; index += stride, n_iterations++) {
+                for (size_t index = 0; index < limit;
+                     index += stride, n_iterations++) {
                     array[index] = array[index] + 1;
                 }
             }
@@ -65,10 +63,9 @@ int main() {
              *****************************************************************/
 
             /* Output to stdout */
-            fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride, time_diff, cycle_count);
+            fprintf(stdout, "%zu\t%zu\t%lf\t%zu\n", cache_size, stride,
+                    time_diff, cycle_count);
         }
-        double const total_time = get_elapsed(&t1);
-        fprintf(stdout, "t1 - t2 (ms): %lf", total_time  * 1000.0);
     }
 
     return 0;

@@ -6,8 +6,8 @@ all: $(TARGETS)
 spark: spark.c
 	$(CC) $(CFLAGS) spark.c -o spark
 
-spark_original: spark_original.c
-	$(CC) $(CFLAGS) spark_original.c -o spark_original
+spark_o: spark_o.c
+	$(CC) $(CFLAGS) spark_o.c -o spark_o
 
 clean:
 	rm -f $(TARGETS) *.o *.stderr *.stdout core *~
