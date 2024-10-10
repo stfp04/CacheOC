@@ -12,7 +12,7 @@ plot "cm1_plot.dat" using 1:2 with lines title "8kB", \
      "cm1_plot.dat" using 1:6 with lines title "128kB", \
      "cm1_plot.dat" using 1:7 with lines title "256kB", \
      "cm1_plot.dat" using 1:8 with lines title "512kB", \
-     "cm1_plot.dat" using 1:8 with lines title "1MB";
+     "cm1_plot.dat" using 1:9 with lines title "1MB";
 
 
 pause mouse
